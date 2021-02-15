@@ -14,7 +14,7 @@
 |--|--|
 | NIM | **1941723006** |
 | Nama Lengkap | **Pandu Dwi Laksono** |
-| Kelas | TI-3C/3D |
+| Kelas | TI-3D |
 
 
 ## Struktur Folder
