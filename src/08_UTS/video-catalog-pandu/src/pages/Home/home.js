@@ -4,16 +4,6 @@ import Header from '../../parts/Header/header'
 import Footer from '../../parts/Footer/footer'
 import video from '../../assets/video/wheat-field.mp4'
 import API from '../../services/API/api'
-import gambar1 from '../../assets/images/tn-01.jpg'
-import gambar2 from '../../assets/images/tn-02.jpg'
-import gambar3 from '../../assets/images/tn-03.jpg'
-import gambar4 from '../../assets/images/tn-04.jpg'
-import gambar5 from '../../assets/images/tn-05.jpg'
-import gambar6 from '../../assets/images/tn-06.jpg'
-import gambar7 from '../../assets/images/tn-07.jpg'
-import gambar8 from '../../assets/images/tn-08.jpg'
-import gambar9 from '../../assets/images/tn-09.jpg'
-
 class Home extends React.Component {
     render() {
         return (
