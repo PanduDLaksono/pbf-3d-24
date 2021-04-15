@@ -2,6 +2,10 @@ import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import Header from '../../parts/Header/header'
 import Footer from '../../parts/Footer/footer'
+import { Provider } from "react-redux";
+import store from '../../store/Reduce/store';
+import showResults from '../../store/result';
+import SimpleForm from '../../components/Form/form';
 import bg1 from '../../assets/images/contact-1.jpg'
 import user1 from '../../assets/images/testimonial-1.jpg'
 import user2 from '../../assets/images/testimonial-2.jpg'
@@ -48,7 +52,7 @@ class Contact extends React.Component {
                         </div>
                     </div>
                     <div class="tm-welcome-container tm-fixed-header tm-fixed-header-1">
-                            <img src={bg1} alt="Image" class="tm-welcome-container tm-fixed-header tm-fixed-header-1" />
+                        <img src={bg1} alt="Image" class="tm-welcome-container tm-fixed-header tm-fixed-header-1" />
                         <div class="text-center">
                             <p class="pt-5 px-3 tm-welcome-text tm-welcome-text-2 mb-1 text-white mx-auto">Background image can be fixed. Content will simply slide over.</p>
                         </div>
@@ -72,36 +76,15 @@ class Contact extends React.Component {
                             <div class="mx-auto pb-3 tm-about-text-container px-3">
                                 <div class="row">
                                     <div class="col-lg-6 mb-5">
-                                        <form id="contact-form" action="" method="POST" class="tm-contact-form">
-                                            <div class="form-group">
-                                                <input type="text" name="name" class="form-control rounded-0" placeholder="Name" required="" />
-                                            </div>
-                                            <div class="form-group">
-                                                <input type="email" name="email" class="form-control rounded-0" placeholder="Email" required="" />
-                                            </div>
-                                            <div class="form-group">
-                                                <select class="form-control" id="contact-select" name="inquiry">
-                                                    <option value="-">Subject</option>
-                                                    <option value="sales">Sales &amp; Marketing</option>
-                                                    <option value="creative">Creative Design</option>
-                                                    <option value="uiux">UI / UX</option>
-                                                </select>
-                                            </div>
-                                            <div class="form-group">
-                                                <textarea rows="8" name="message" class="form-control rounded-0" placeholder="Message"
-                                                    required=""></textarea>
-                                            </div>
-
-                                            <div class="form-group mb-0">
-                                                <button type="submit" class="btn btn-primary rounded-0 d-block ml-auto mr-0 tm-btn-animate tm-btn-submit tm-icon-submit"><span>Submit</span></button>
-                                            </div>
-                                        </form>
+                                        <Provider store={store}>
+                                            <SimpleForm onSubmit={showResults} />
+                                        </Provider>
                                     </div>
                                     <div class="col-lg-6">
                                         <div class="mapouter mb-60">
                                             <div class="gmap_canvas">
                                                 <iframe width="100%" height="520" id="gmap_canvas"
-                                                    src="https://maps.google.com/maps?q=Av.+L%C3%BAcio+Costa,+Rio+de+Janeiro+-+RJ,+Brazil&t=&z=13&ie=UTF8&iwloc=&output=embed"
+                                                    src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d25873.094826208322!2d111.88696766644408!3d-7.15411061192697!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2e7781f55a0ec639%3A0xb5455c741d8725cf!2sAlun%20-%20Alun%20Kota%20Bojonegoro!5e0!3m2!1sen!2sid!4v1618487185532!5m2!1sen!2sid"
                                                     frameborder="0" scrolling="no" marginheight="0" marginwidth="0"></iframe>
                                             </div>
                                         </div>

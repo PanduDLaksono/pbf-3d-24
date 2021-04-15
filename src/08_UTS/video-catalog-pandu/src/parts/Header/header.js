@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
-import { Link } from 'react-router-dom';
+import '../../assets/css/bootstrap.min.css';
+import '../../assets/css/templatemo-video-catalog.css';
+
 class Header extends React.Component {
     render() {
         return (
