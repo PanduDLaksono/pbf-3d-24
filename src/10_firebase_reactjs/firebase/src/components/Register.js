@@ -3,9 +3,13 @@ import { AuthContext } from '../App';
 import firebase from 'firebase/app';
 import "firebase/analytics";
 import "firebase/auth";
+import { Spinner } from 'react-bootstrap';
+import 'bootstrap/dist/css/bootstrap.min.css';
 
 
 function Register() {
+    const [loading, setLoading] = useState(false);
+    const [loadingG, setLoadingG] = useState(false);
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [error, setErrors] = useState("");
@@ -13,6 +17,7 @@ function Register() {
     const Auth = useContext(AuthContext);
 
     const handleForm = e => {
+        setLoading(true);
         e.preventDefault();
 
         firebase
@@ -20,6 +25,7 @@ function Register() {
             .createUserWithEmailAndPassword(email, password)
             .then(res => {
                 if (res.user) Auth.setLoggedIn(true);
+                setLoading(false);
             })
             .catch(e => {
                 setErrors(e.message);
@@ -52,7 +58,9 @@ function Register() {
                     />
           Register With Google
         </button>
-                <button type="submit">Register</button>
+                <button type="submit">
+                {loading ? <Spinner role="status" animation="grow" variant="primary"/> : "Register"}
+                </button>
                 <span>{error}</span>
             </form>
         </div>
