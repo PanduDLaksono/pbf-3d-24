@@ -1,7 +1,8 @@
 import React from "react";
 import { connect } from "react-redux";
 import { logoutUser } from "../redux/actions/auth";
-import { BlogPost } from "../components/blogPost";
+import  BlogPost  from "./blogPost";
+import 'bootstrap/dist/css/bootstrap.min.css';
 
 class Home extends React.Component {
 

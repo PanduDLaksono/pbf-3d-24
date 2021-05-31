@@ -1,8 +1,8 @@
 //import API from '../services/Artikel';
 import React from 'react';
-import { Button, Container, Form } from 'react-bootstrap';
+
+import { Button, Container, Form, Modal } from 'react-bootstrap';
 import { DB } from '../firebase.config';
-import 'bootstrap/dist/css/bootstrap.min.css';
 
 function DaftarArtikel(props) {
     return (
@@ -13,11 +13,11 @@ function DaftarArtikel(props) {
     );
 }
 
-
 export default class BlogPost extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
+            showEdit: false,
             dataArtikel: [],      // untuk menampung data API
             postArtikel: {
                 userId: 1,
@@ -81,14 +81,29 @@ export default class BlogPost extends React.Component {
         });
     }
 
+    handleTombolEdit = (e) => {
+        e.preventDefault();
+
+        const { dataArtikel, postArtikel } = this.state;
+
+        const newState = dataArtikel.filter(data => {
+            
+        }); 
+
+        this.setState({ postArtikel, showEdit: true });
+    }
+
     handleTombolHapus = (e) => {
         e.preventDefault();
 
-        API.deleteNewsBlog(e.target.value)
-            .then((response) => {
-                this.ambilDataDariServerAPI();    // refresh data
-                alert('Data berhasil dihapus!');
-            });
+        const { dataArtikel } = this.state;
+
+        const newState = dataArtikel.filter(data => {
+            return data.id !== e.target.value;
+        });
+
+        this.setState({ dataArtikel: newState });
+        alert('Data berhasil dihapus!');
     }
 
     componentDidMount() {
@@ -118,7 +133,7 @@ export default class BlogPost extends React.Component {
                         </Form.Group>
                         <Button variant="primary" type="submit">
                             Simpan Artikel
-            </Button>
+                        </Button>
                     </Form>
                 </Container>
 
@@ -130,11 +145,40 @@ export default class BlogPost extends React.Component {
                             <div key={artikel.id}>
                                 <DaftarArtikel judul={artikel.title} isiArtikel={artikel.body} />
                                 <Button variant="danger" value={artikel.id} onClick={this.handleTombolHapus}>Hapus</Button>
+                                <Button variant="info" value={artikel.id} onClick={this.handleTombolEdit} >Edit</Button>
                                 <hr></hr>
                             </div>
                         )
                     })
                 }
+
+                <Modal show={showEdit} onHide={() => this.setState({ showEdit: false })} size="lg" aria-labelledby="contained-modal-title-vcenter" centered>
+                    <Modal.Header closeButton>
+                        <Modal.Title id="contained-modal-title-vcenter">
+                            Edit Artikel
+                        </Modal.Title>
+                    </Modal.Header>
+                    <Modal.Body>
+                        <Container>
+                            <Form onSubmit={this.handleTombolSimpan}>
+                                <Form.Group controlId="inputJudul">
+                                    <Form.Label>Judul Artikel</Form.Label>
+                                    <Form.Control required type="text" name="title" value={postArtikel.title} placeholder="judul artikel" onChange={this.handleOnChange} />
+                                </Form.Group>
+                                <Form.Group controlId="inputIsiArtikel">
+                                    <Form.Label>Isi Artikel</Form.Label>
+                                    <Form.Control required name="body" value={postArtikel.body} placeholder="isi artikel" onChange={this.handleOnChange} as="textarea" rows={3} />
+                                </Form.Group>
+                                <Button variant="primary" type="submit">
+                                    Update Artikel
+                                </Button>
+                            </Form>
+                        </Container>
+                    </Modal.Body>
+                    <Modal.Footer>
+                        <Button variant="danger" onClick={() => this.setState({ showEdit: false })}>Batal</Button>
+                    </Modal.Footer>
+                </Modal>
             </div>
         );
     }
