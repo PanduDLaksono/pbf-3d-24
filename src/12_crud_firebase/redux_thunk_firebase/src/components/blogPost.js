@@ -2,7 +2,7 @@
 import React from 'react';
 
 import { Button, Container, Form, Modal } from 'react-bootstrap';
-import { DB } from '../firebase.config';
+import { DB, myFirebase } from '../firebase.config';
 
 function DaftarArtikel(props) {
     return (
@@ -57,7 +57,7 @@ export default class BlogPost extends React.Component {
         } else if (postArtikel.title && postArtikel.body) {
             console.log(dataArtikel);
             const id = new Date().getTime().toString();
-            let userId = 1; // TODO: set to username/email
+            let userId = myFirebase.auth().currentUser.email; // TODO: set to username/email
             let title = postArtikel.title;
             let body = postArtikel.body;
             dataArtikel.push({ id, userId, title, body });
@@ -86,11 +86,10 @@ export default class BlogPost extends React.Component {
 
         const { dataArtikel, postArtikel } = this.state;
 
-        const newState = dataArtikel.filter(data => {
-            
-        }); 
-
-        this.setState({ postArtikel, showEdit: true });
+        const insertPostArtikel = dataArtikel.find(data =>{
+            return data.id === e.target.value
+        });
+        this.setState({ postArtikel:insertPostArtikel, showEdit: true });
     }
 
     handleTombolHapus = (e) => {
@@ -117,7 +116,7 @@ export default class BlogPost extends React.Component {
     }
 
     render() {
-        const { dataArtikel } = this.state;
+        const { dataArtikel, showEdit, postArtikel } = this.state;
 
         return (
             <div>
