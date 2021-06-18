@@ -29,7 +29,7 @@ export default class BlogPost extends React.Component {
 
     ambilDataDariServerAPI = () => {
         let ref = DB.ref("articles/");
-        ref.on("value", snapshot => {
+       ref.on("value", snapshot => {
             if (snapshot.val() !== null)
                 this.setState({
                     dataArtikel: snapshot.val()
@@ -51,10 +51,11 @@ export default class BlogPost extends React.Component {
                 return data.id === postArtikel.id
             });
 
+            dataArtikel[indeksArtikel].userId = postArtikel.userId;
             dataArtikel[indeksArtikel].title = postArtikel.title;
             dataArtikel[indeksArtikel].body = postArtikel.body;
             this.setState({ dataArtikel });
-        } else if (postArtikel.title && postArtikel.body) {
+        } else if (postArtikel.userId && postArtikel.title && postArtikel.body) {
             console.log(dataArtikel);
             const id = new Date().getTime().toString();
             let userId = myFirebase.auth().currentUser.email; // TODO: set to username/email
@@ -67,7 +68,7 @@ export default class BlogPost extends React.Component {
         postArtikel.id = '';
         postArtikel.title = '';
         postArtikel.body = '';
-        this.setState({ postArtikel });
+        this.setState({ postArtikel, showEdit:false});
     }
 
     handleOnChange = (e) => {
@@ -86,10 +87,15 @@ export default class BlogPost extends React.Component {
 
         const { dataArtikel, postArtikel } = this.state;
 
-        const insertPostArtikel = dataArtikel.find(data =>{
+        const indeksArtikel = dataArtikel.findIndex(data =>{
             return data.id === e.target.value
         });
-        this.setState({ postArtikel:insertPostArtikel, showEdit: true });
+
+        postArtikel.id = e.target.value;
+        postArtikel.title = dataArtikel[indeksArtikel].title;
+        postArtikel.body = dataArtikel[indeksArtikel].body;
+
+        this.setState({ postArtikel, showEdit: true });
     }
 
     handleTombolHapus = (e) => {
@@ -175,7 +181,12 @@ export default class BlogPost extends React.Component {
                         </Container>
                     </Modal.Body>
                     <Modal.Footer>
-                        <Button variant="danger" onClick={() => this.setState({ showEdit: false })}>Batal</Button>
+                        <Button variant="danger" onClick={() => this.setState({ showEdit: false, postArtikel:{
+                            id:'',
+                            userId: myFirebase.auth().currentUser.email,
+                            title:'',
+                            body:''
+                        } })}>Batal</Button>
                     </Modal.Footer>
                 </Modal>
             </div>
